@@ -1,0 +1,122 @@
+#!name=Task-Always on
+#!desc=该模块适用于定时脚本 - 始终开启
+#!system=ios
+
+
+[Script]
+# 彩云天气 获取定位
+https:\/\/weather-data\.apple\.com url script-request-header https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js
+# > 彩云天气
+彩云天气 = type=cron,cronexp="0 0 8,12,15,18,21 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js
+# 淘宝历史价格
+^http://.+/amdc/mobileDispatch url script-request-body https://raw.githubusercontent.com/yichahucha/surge/master/tb_price.js
+^https?://trade-acs\.m\.taobao\.com/gw/mtop\.taobao\.detail\.getdetail url script-response-body https://raw.githubusercontent.com/yichahucha/surge/master/tb_price.js
+# 京东历史价格
+^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) url script-response-body https://raw.githubusercontent.com/yichahucha/surge/master/jd_price.js
+# 京东活动
+https://.*\.m\.jd\.com/.*\.html url script-response-body https://raw.githubusercontent.com/id77/QuantumultX/master/Script/jd_hd.js
+
+
+
+# TF 国区下载修正
+^https?:\/\/testflight\.apple\.com\/v2\/accounts\/.*\/apps\/\d*\/builds\/\d*\/install url request-body storefrontId" : ".*", request-body storefrontId" : "143441-1,29",
+# google 翻页 (senku)
+https?:\/\/www\.google\.([a-z.]*)\/search.*(?<!start=\d{2}|\d{3})$ url script-response-body https://raw.githubusercontent.com/id77/QuantumultX/master/Script/endless.js
+# 微博网页跳转登陆屏蔽
+https://m\.weibo\.cn/comments/hotflow.*max_id=.* url reject-dict
+# 知乎（部分替换为手机百度 Quark 的 User-Agent）
+# 可以看楼层回复 1-2 条
+^https:\/\/www\.zhihu\.com\/ url request-header (\r\n)User-Agent:.+(\r\n) request-header $1User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1 Quark/604.1 T7/10.7 SearchCraft/2.7.7 (Baidu; P1 9.0.0)$2
+# 知乎直接看
+^https://www\.zhihu\.com/question/ url script-response-body https://raw.githubusercontent.com/id77/QuantumultX/master/Script/zhihu.js
+^https://zhuanlan\.zhihu\.com/p/ url script-response-body https://raw.githubusercontent.com/id77/QuantumultX/master/Script/zhihu.js
+
+# workingcopy
+^https:\/\/education\.github\.com\/api\/user$ url response-body "student":false response-body "student":true
+# 韩剧TV
+^http:\/\/api\.hanju\.koudaibaobao\.com\/api\/series\/rslvV4 url response-body "quality":\d response-body "quality":10
+# 白描
+^https:\/\/baimiao\.uzero\.cn\/api\/v2\.user\/(logout|appLaunchWithUser|loginByWeixin) url script-response-body https://raw.githubusercontent.com/id77/QuantumultX/master/Script/baimiao.js
+# termius 会员
+^https:\/\/api\.termius\.com\/api\/v3\/bulk\/account\/ url script-response-body https://raw.githubusercontent.com/langkhach270389/Scripting/master/Terminus.js
+#Bear熊掌记  内购解锁
+#需要ios13 复制放本地 恢复购买后禁用掉
+^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt url script-response-body https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Script/bear.js
+#人人视频 (by@george Jiang & R)
+^https:\/\/api\.rr\.tv(\/user\/privilege\/list|\/ad\/getAll|\/rrtv-video\/v4plus\/season\/detail) url script-response-body https://raw.githubusercontent.com/nzw9314/QuantumultX/master/Script/rrtv.js
+# drops
+^https:\/\/lambda\.us-east-1\.amazonaws\.com/.*/functions\/prod-4-syncPurchases\/invocations$ url script-response-body https://raw.githubusercontent.com/langkhach270389/Scripting/master/drops.js
+# 彩云天气 Vip
+^https:\/\/biz\.caiyunapp\.com\/v2\/user\?app_name\=weather url script-response-body https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/ColorWeather.js
+
+
+# > 哈啰出行
+哈啰出行 = type=cron,cronexp="35 0 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/hellobike/hellobike.js
+
+# > 滴滴出行
+滴滴出行 = type=cron,cronexp="55 0 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/DiDi/DiDi_new.js
+滴滴出行 = type=cron,cronexp="0 0 20 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/DiDi/DiDi_new.js
+# > 滴滴金融
+滴滴金融 = type=cron,cronexp="15 1 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/DiDi/DiDi_finance.js
+# > 支付宝天天挖矿小程序
+支付宝天天挖矿 = type=cron,cronexp="30 1 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/ttwk/ttwk.js
+# > 伊利乳品小程序
+伊利乳品 = type=cron,cronexp="15 2 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.js
+伊利乳品 = type=cron,cronexp=10 0 * * *,script-path=https://raw.githubusercontent.com/id77/QuantumultX/master/task/yiLi.js,wake-system=true
+
+# > 饿了么
+饿了么 = type=cron,cronexp="50 2 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/songyangzz/QuantumultX/master/elem/elemSign.js
+饿了么打卡 = type=cron,cronexp="55 2 0 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/zZPiglet/Task/master/elem/elemCheckIn.js
+# > 菁优网
+菁优网 = type=cron,cronexp="10 9 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/lovelysafari/JavaScript/master/jingyouwang.js
+# > 新浪微博
+新浪微博 = type=cron,cronexp="10 9 * * *",wake-system=1,timeout=30,script-path=https://raw.githubusercontent.com/Sunert/Scripts/master/Task/weibo.js
+# > 人人视频
+人人视频 = type=cron,cronexp="20 9 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/rrtv/rrtv.js
+# > 腾讯视频
+腾讯视频 = type=cron,cronexp="20 9 * * *",wake-system=1,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/videoqq/videoqq.js
+
+# > 吾爱签到
+吾爱签到 = type=cron,cronexp=1 6,12 * * *,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/52pojie-DailyBonus/52pojie.js
+# > 去哪儿
+去哪儿 = type=cron,cronexp=4 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/qunar/qunar.js
+
+# > BiliBili
+BiliBili = type=cron,cronexp=2 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/bilibili/bilibili.js,wake-system=true
+# > WPS 
+WPS = type=cron,cronexp=0 9 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wps/wps.js,wake-system=true
+# > 人人视频
+人人视频 = type=cron,cronexp=10 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/rrtv/rrtv.js,wake-system=true
+# > 喜马拉雅
+喜马拉雅 = type=cron,cronexp=4 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.js,wake-system=true
+# >百度贴吧
+百度贴吧 = type=cron,cronexp=1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/tieba/tieba.js,wake-system=true
+
+中国移动 = type=cron,cronexp=7 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/10086/10086.js,wake-system=true
+
+#樊登读书
+樊登读书 = type=cron,cronexp=1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/fandeng/fandeng.js,wake-system=true
+
+# 豆瓣时间
+豆瓣时间 = type=cron,cronexp=1 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/dbsj/dbsj.js,wake-system=true
+
+
+# > 美团
+美团 = type=cron,cronexp=7 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.js,wake-system=true
+美团外卖 = type=cron,cronexp=8 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wmmeituan/wmmeituan.js
+# > 芒果TV
+芒果TV = type=cron,cronexp=2 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/mgtv/mgtv.js,wake-system=true
+# > 苏宁易购
+苏宁易购 = type=cron,cronexp=7 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/suning/suning.js,wake-system=true
+# > 顺丰速运
+顺丰速运 = type=cron,cronexp=6 0 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js,wake-system=true
+# > 网易云音乐
+网易云音乐 = type=cron,cronexp=1 7 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/neteasemusic/neteasemusic.js,wake-system=true
+
+# 有道云笔记
+有道云笔记 = type=cron,cronexp=1 7 * * *,script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/noteyoudao/noteyoudao.js
+
+
+
+
+
